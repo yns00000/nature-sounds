@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>자연의 소리 체험</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 40px;
+      text-align: center;
+    }
+    .sound-block {
+      margin-bottom: 50px;
+    }
+    .slider {
+      width: 300px;
+      margin: 15px auto;
+    }
+    button {
+      padding: 8px 16px;
+      font-size: 14px;
+    }
+    h2 {
+      margin-bottom: 5px;
+    }
+    audio {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>자연의 소리 볼륨 체험</h1>
+
+  <div class="sound-block">
+    <h2>물 흐르는 소리</h2>
+    <audio id="stream" src="stream.mp3" loop></audio>
+    <button onclick="togglePlay('stream')">▶ 재생 / ⏸ 정지</button>
+    <div class="slider">
+      <input type="range" min="-10" max="80" step="5" value="40" oninput="updateVolume(this.value, 'stream')">
+      <div>볼륨: <span id="label-stream">40</span> dB</div>
+    </div>
+  </div>
+
+  <div class="sound-block">
+    <h2>바람 소리</h2>
+    <audio id="wind" src="wind.mp3" loop></audio>
+    <button onclick="togglePlay('wind')">▶ 재생 / ⏸ 정지</button>
+    <div class="slider">
+      <input type="range" min="-10" max="80" step="5" value="40" oninput="updateVolume(this.value, 'wind')">
+      <div>볼륨: <span id="label-wind">40</span> dB</div>
+    </div>
+  </div>
+
+  <div class="sound-block">
+    <h2>새 소리</h2>
+    <audio id="birds" src="birds.mp3" loop></audio>
+    <button onclick="togglePlay('birds')">▶ 재생 / ⏸ 정지</button>
+    <div class="slider">
+      <input type="range" min="-10" max="80" step="5" value="40" oninput="updateVolume(this.value, 'birds')">
+      <div>볼륨: <span id="label-birds">40</span> dB</div>
+    </div>
+  </div>
+
+  <div class="sound-block">
+    <h2>풀벌레 소리</h2>
+    <audio id="insects" src="insects.mp3" loop></audio>
+    <button onclick="togglePlay('insects')">▶ 재생 / ⏸ 정지</button>
+    <div class="slider">
+      <input type="range" min="-10" max="80" step="5" value="40" oninput="updateVolume(this.value, 'insects')">
+      <div>볼륨: <span id="label-insects">40</span> dB</div>
+    </div>
+  </div>
+
+  <script>
+    function togglePlay(id) {
+      const audio = document.getElementById(id);
+      if (audio.paused) {
+        audio.play().catch(err => {
+          alert("브라우저에서 자동 재생이 차단됐어요. 버튼을 다시 눌러주세요.");
+        });
+      } else {
+        audio.pause();
+      }
+    }
+
+    function updateVolume(db, id) {
+      const label = document.getElementById(`label-${id}`);
+      const audio = document.getElementById(id);
+      label.textContent = db;
+      let volume = Math.pow(10, (db - 80) / 20);
+      volume = Math.min(Math.max(volume, 0), 1);
+      audio.volume = volume;
+    }
+  </script>
+
+</body>
+</html>
